@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyRecipes.Database.EntityModels;
+using MyRecipes.Database.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +29,7 @@ namespace MyRecipes.Database
                 FirstName = "john",
                 LastName = "Doe",
                 Mail = "john.Doe@noOne.com",
-                Password = "password",
+                Password = PasswordTool.HashPassword("password"),
                 UserName = "JoDo",
                 Role = "ADMIN"
             };
@@ -39,7 +40,7 @@ namespace MyRecipes.Database
                 FirstName = "Peter",
                 LastName = "Parker",
                 Mail = "peter.parker@gmail.com",
-                Password = "spiderPassword",
+                Password = PasswordTool.HashPassword("spiderPassword"),
                 UserName = "spiderman",
                 Role = "USER"
             };
@@ -50,7 +51,7 @@ namespace MyRecipes.Database
                 FirstName = "Clark",
                 LastName = "Kent",
                 Mail = "clark.kent@gmail.com",
-                Password = "SuperPassword",
+                Password = PasswordTool.HashPassword("SuperPassword"),
                 UserName = "Superman",
                 Role = "ADMIN"
             };
@@ -61,7 +62,7 @@ namespace MyRecipes.Database
                 FirstName = "Bruce",
                 LastName = "Wayne",
                 Mail = "Bruce.Wayne@gmail.com",
-                Password = "BatPassword",
+                Password = PasswordTool.HashPassword("BatPassword"),
                 UserName = "Batman",
                 Role = "USER"
             };

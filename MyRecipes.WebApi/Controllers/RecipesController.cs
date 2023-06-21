@@ -8,7 +8,7 @@ namespace MyRecipes.WebApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class RecipesController : Controller
+    public sealed class RecipesController : Controller
     {
         private static IRecipesBusiness _recipesBusiness;
 

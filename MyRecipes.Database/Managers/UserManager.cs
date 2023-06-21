@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using MyRecipes.Database.EntityModels;
 using Microsoft.EntityFrameworkCore;
 using MyRecipes.Domain.Models.Request;
+using MyRecipes.Database.Tools;
 
 namespace MyRecipes.Database.Managers
 {
@@ -34,7 +35,7 @@ namespace MyRecipes.Database.Managers
                         Mail = user.Mail,
                         UserName = user.UserName,
                         Role = user.Role.ToUpper(),
-                        Password = password
+                        Password = PasswordTool.HashPassword(password)
                     };
 
                     await _databaseContext.Users.AddAsync(UserBeAdd);
@@ -75,7 +76,7 @@ namespace MyRecipes.Database.Managers
         {
             try
             {
-                var user = await _databaseContext.Users.FirstOrDefaultAsync(t => t.UserName == username && t.Password == password);
+                var user = await _databaseContext.Users.FirstOrDefaultAsync(t => t.UserName == username && t.Password == PasswordTool.HashPassword(password));
                 return user.ToUserModel();
             }
             catch (DbUpdateException dbEx)
@@ -202,7 +203,7 @@ namespace MyRecipes.Database.Managers
                 var userFound = await _databaseContext.Users.SingleOrDefaultAsync(u =>u.Id == userId);
                 if (userFound is not null && userFound.UserName == newPassword.UserName)
                 {
-                    userFound.Password = newPassword.NewPassword;
+                    userFound.Password = PasswordTool.HashPassword(newPassword.NewPassword);
                     _databaseContext.Users.Update(userFound);
                     await _databaseContext.SaveChangesAsync();
                     return true;

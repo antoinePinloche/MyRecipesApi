@@ -9,7 +9,7 @@ namespace MyRecipes.WebApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class CookingStepController : Controller
+    public sealed class CookingStepController : Controller
     {
 
         private static ICookingStepsBusiness _cookingStepsBusiness;

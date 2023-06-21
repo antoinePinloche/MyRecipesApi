@@ -13,7 +13,7 @@ namespace MyRecipes.WebApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class AuthController : Controller
+    public sealed class AuthController : Controller
     {
         private static IUserBusiness _usersBusiness;
         private readonly string SecretToken = "ForTheLoveOfGodStoreAndLoadThisSecurely";

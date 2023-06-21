@@ -14,7 +14,7 @@ using MyRecipes.Domain.Models;
 namespace Unit_Testing
 {
     [TestFixture]
-    public class IngredientManagerTest
+    public sealed class IngredientManagerTest
     {
         private IngredientManager? _manager;
         private IngredientModel? _model;

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace MyRecipes.Database.Managers
 {
-    public class RecipesUserManager : IRecipesUserManager
+    public sealed class RecipesUserManager : IRecipesUserManager
     {
         private readonly DatabaseContext _databaseContext;
 

@@ -10,7 +10,7 @@ using MyRecipes.Domain.Interfaces.Business;
 
 namespace MyRecipes.Domain.Business
 {
-    public class RecipesUserBusiness : IRecipesUserBusiness
+    public sealed class RecipesUserBusiness : IRecipesUserBusiness
     {
         public IRecipesUserManager _recipesUserManager ;
 

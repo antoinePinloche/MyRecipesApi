@@ -12,7 +12,7 @@ using MyRecipes.Domain.Models.Request;
 namespace Unit_Testing
 {
     [TestFixture]
-    public class CookingStepManagerTests
+    public sealed class CookingStepManagerTests
     {
         private CookingStepManager _manager;
         private int _lastCSCreate;

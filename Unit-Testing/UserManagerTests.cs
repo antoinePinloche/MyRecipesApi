@@ -43,10 +43,10 @@ namespace Unit_Testing
             {
                 var user2 = _manager.GetUserById(2).Result;
                 Assert.IsTrue(user2.Id == 2 &&
-                                user2.FirstName == "john" &&
-                                user2.LastName == "Doe" &&
-                                user2.Mail == "antoine.pinloche@user.com" &&
-                                user2.UserName == "user" &&
+                                user2.FirstName == "Peter" &&
+                                user2.LastName == "Parker" &&
+                                user2.Mail == "peter.parker@gmail.com" &&
+                                user2.UserName == "spiderman" &&
                                 user2.Role == "USER");
             }
             catch (NullReferenceException ex)

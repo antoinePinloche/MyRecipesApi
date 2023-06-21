@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MyRecipes.Domain.Models.Request.Auth
 {
-    public class ConnectUserRequest
+    public sealed class ConnectUserRequest
     {
         [Required]
         public string UserName { get; set; }

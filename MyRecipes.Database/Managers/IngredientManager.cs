@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MyRecipes.Database.Managers
 {
-    public class IngredientManager : IIngredientManager
+    public sealed class IngredientManager : IIngredientManager
     {
         private readonly DatabaseContext _databaseContext;
 

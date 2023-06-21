@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MyRecipes.Domain.Models
 {
-    public class TokenModel
+    public sealed class TokenModel
     {
         public string UserName { get; set; }
 

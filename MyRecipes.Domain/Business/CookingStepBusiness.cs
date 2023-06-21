@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MyRecipes.Domain.Business
 {
-    public class CookingStepBusiness : ICookingStepsBusiness
+    public sealed class CookingStepBusiness : ICookingStepsBusiness
     {
         public ICookingStepsManager _cookingManager;
 
