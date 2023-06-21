@@ -35,6 +35,38 @@ namespace MyRecipes.Domain.Business
             }
         }
 
+        public async Task<UserModel> FoundUserByCookingStepId(int cookingStepId)
+        {
+            try
+            {
+                return await _cookingManager.FoundUserByCookingStepId(cookingStepId);
+            }
+            catch (NullReferenceException)
+            {
+                throw new NullReferenceException();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<UserModel> FoundUserByRecipeId(int recipeId)
+        {
+            try
+            {
+                return await _cookingManager.FoundUserByRecipeId(recipeId);
+            }
+            catch (NullReferenceException)
+            {
+                throw new NullReferenceException();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public async Task<List<CookingStepModel>> GetAllCookingSteps()
         {
             try

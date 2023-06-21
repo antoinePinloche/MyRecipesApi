@@ -23,7 +23,7 @@ namespace Unit_Testing
         public void SetUp()
         {
             DbContextOptionsBuilder t = new DbContextOptionsBuilder();
-            var tmp = t.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Initial Catalog=MyRecipes;Integrated Security=true;MultipleActiveResultSets=True").Options;
+            var tmp = t.UseSqlServer(@"Server=(localdb)\\mssqllocaldb;Initial Catalog=MyRecipes;Integrated Security=true;MultipleActiveResultSets=True").Options;
             var context = new DatabaseContext(tmp);
             _manager = new IngredientManager(context);
         }

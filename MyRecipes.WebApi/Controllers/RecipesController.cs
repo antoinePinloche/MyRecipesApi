@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using MyRecipes.Domain.Interfaces.Business;
 using MyRecipes.Domain.Models.Request;
 using MyRecipes.WebApi.Identity;
+using MyRecipes.WebApi.Tools;
+using System.Security.Claims;
 
 namespace MyRecipes.WebApi.Controllers
 {
@@ -38,7 +40,7 @@ namespace MyRecipes.WebApi.Controllers
 
         [Authorize]
         [HttpGet("{Id:int}")]
-        public async Task<ActionResult> Get(int Id)
+        public async Task<ActionResult> GetById(int Id)
         {
             try
             {
@@ -57,7 +59,7 @@ namespace MyRecipes.WebApi.Controllers
 
         [Authorize]
         [HttpGet("Ingredient/")]
-        public async Task<ActionResult> GetbyRecipe(string Name)
+        public async Task<ActionResult> GetRecipebyIngredientName(string Name)
         {
             try
             {
@@ -119,16 +121,26 @@ namespace MyRecipes.WebApi.Controllers
         }
 
 
-        [Authorize(Policy = IdentityData.AdminUserPolicyName)]
+        [Authorize]
         [HttpDelete]
         public async Task<ActionResult> Delete(int Id)
         {
             try
             {
-                var ret = await _recipesBusiness.DeleteRecipe(Id);
-                if (ret)
-                    return Ok("Recipes Delete");
-                return NoContent();
+                var currentUser = HttpContext.User.Identity as ClaimsIdentity;
+                if (currentUser is not null)
+                {
+                    var user = await _recipesBusiness.FoundUserByRecipe(Id);
+                    if (CurrentUserTools.CheckCurrentUserAccess(currentUser, user.Id))
+                    {
+                        var ret = await _recipesBusiness.DeleteRecipe(Id);
+                        if (ret)
+                            return Ok("Recipes Delete");
+                        return NoContent();
+                    }
+                    return StatusCode(403, "Not Allow");
+                }
+                return StatusCode(401);
             }
             catch (NullReferenceException)
             {
@@ -140,7 +152,7 @@ namespace MyRecipes.WebApi.Controllers
             }
         }
 
-        [Authorize(Policy =IdentityData.AdminUserPolicyName)]
+        [Authorize]
         [HttpPut("{Id:int}")]
         public async Task<ActionResult> Put(RecipeRequest request, int Id)
         {
@@ -148,8 +160,19 @@ namespace MyRecipes.WebApi.Controllers
             {
                 try
                 {
-                    var ret = await _recipesBusiness.ModifyRecipe(request, Id);
-                    return Ok(ret);
+                    var currentUser = HttpContext.User.Identity as ClaimsIdentity;
+                    if (currentUser is not null)
+                    {
+                        var user = await _recipesBusiness.FoundUserByRecipe(Id);
+                        if (CurrentUserTools.CheckCurrentUserAccess(currentUser, user.Id))
+                        {
+                            var ret = await _recipesBusiness.ModifyRecipe(request, Id);
+                            return Ok(ret);
+                        }
+                        return StatusCode(403, "Not Allow");
+                    }
+                    return StatusCode(401);
+
                 }
                 catch (NullReferenceException)
                 {

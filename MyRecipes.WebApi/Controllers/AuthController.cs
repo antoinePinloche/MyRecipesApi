@@ -49,7 +49,7 @@ namespace MyRecipes.WebApi.Controllers
                         new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                         new(JwtRegisteredClaimNames.Sub, request.UserName),
                         new(JwtRegisteredClaimNames.UniqueName, request.UserName),
-                        new("userid", userFound.Id.ToString())
+                        new("userId", userFound.Id.ToString(), "int")
                     };
                     Claim claim;
                     if (userFound.Role == "ADMIN")

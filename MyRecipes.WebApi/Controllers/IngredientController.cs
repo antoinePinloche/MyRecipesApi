@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MyRecipes.Domain.Business;
 using MyRecipes.Domain.Interfaces.Business;
 using MyRecipes.Domain.Models;
 using MyRecipes.Domain.Models.Request;
 using MyRecipes.WebApi.Identity;
+using MyRecipes.WebApi.Tools;
+using System.Security.Claims;
 
 namespace MyRecipes.WebApi.Controllers
 {
@@ -77,37 +80,27 @@ namespace MyRecipes.WebApi.Controllers
                 return StatusCode(500);
             }
         }
-        [Authorize(Policy = IdentityData.AdminUserPolicyName)]
+
+        [Authorize]
         [HttpDelete]
         public async Task<ActionResult> Delete(int Id)
         {
             try
             {
-                var ret = await _ingredientBusiness.DeleteIngredient(Id);
-                if (ret)
-                    return Ok("Ingredient Delete");
-                return NoContent();
-            }
-            catch (NullReferenceException )
-            {
+                var user = await _ingredientBusiness.GetUserByIngredient(Id);
+                var actualUser = HttpContext.User.Identity as ClaimsIdentity;
+                if (user is not null)
+                {
+                    if (CurrentUserTools.CheckCurrentUserAccess(actualUser, user.Id))
+                    {
+                        var ret = await _ingredientBusiness.DeleteIngredient(Id);
+                        if (ret)
+                            return Ok("Ingredient Delete");
+                        return NoContent();
+                    }
+                    return StatusCode(403);
+                }
                 return NotFound();
-            }
-            catch (Exception)
-            {
-                return StatusCode(500);
-            }
-
-        }
-        [Authorize(Policy = IdentityData.AdminUserPolicyName)]
-        [HttpDelete("Recipe/{Id:int}")]
-        public async Task<ActionResult> DeleteIngredientsByRecipeId(int Id)
-        {
-            try
-            {
-                var ret = await _ingredientBusiness.DeleteIngredientByRecipeId(Id);
-                if (ret)
-                    return Ok("Ingredient Delete");
-                return NoContent();
             }
             catch (NullReferenceException)
             {
@@ -117,9 +110,39 @@ namespace MyRecipes.WebApi.Controllers
             {
                 return StatusCode(500);
             }
-
+        }
+        [Authorize]
+        [HttpDelete("Recipe/{Id:int}")]
+        public async Task<ActionResult> DeleteIngredientsByRecipeId(int Id)
+        {
+            try
+            {
+                var user = await _ingredientBusiness.GetUserByIngredient(Id);
+                var actualUser = HttpContext.User.Identity as ClaimsIdentity;
+                if (user is not null)
+                {
+                    if (CurrentUserTools.CheckCurrentUserAccess(actualUser, user.Id))
+                    {
+                        var ret = await _ingredientBusiness.DeleteIngredientByRecipeId(Id);
+                        if (ret)
+                            return Ok("Ingredient Delete");
+                        return NoContent();
+                    }
+                    return StatusCode(403);
+                }
+                return NotFound();
+            }
+            catch (NullReferenceException)
+            {
+                return NotFound();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult> CreateIngredients(List<IngredientRequest> requests)
         {

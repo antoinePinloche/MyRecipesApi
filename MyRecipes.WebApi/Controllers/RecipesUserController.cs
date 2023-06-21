@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using MyRecipes.Domain.Interfaces.Business;
 using MyRecipes.Domain.Models.Request;
 using MyRecipes.WebApi.Identity;
+using MyRecipes.WebApi.Tools;
+using System.Security.Claims;
 
 namespace MyRecipes.WebApi.Controllers
 {
@@ -57,16 +59,26 @@ namespace MyRecipes.WebApi.Controllers
 
         }
 
-        [Authorize(Policy = IdentityData.AdminUserPolicyName)]
+        [Authorize]
         [HttpDelete]
         public async Task<ActionResult> Delete(int Id)
         {
             try
             {
-                var ret = await _recipesUserBusiness.DeleteRecipesUser(Id);
-                if (ret)
-                    return Ok("RecipesUser Delete");
-                return NoContent();
+                var currentUser = HttpContext.User.Identity as ClaimsIdentity;
+                if (currentUser == null)
+                {
+                    var uuserFound = await _recipesUserBusiness.GetUserByRecipesUserId(Id);
+                    if (CurrentUserTools.CheckCurrentUserAccess(currentUser, uuserFound.Id))
+                    {
+                        var ret = await _recipesUserBusiness.DeleteRecipesUser(Id);
+                        if (ret)
+                            return Ok("RecipesUser Delete");
+                        return NoContent();
+                    }
+                }
+                return StatusCode(401);
+
             }
             catch (NullReferenceException)
             {
@@ -85,8 +97,12 @@ namespace MyRecipes.WebApi.Controllers
         {
             try
             {
-               var ret = await _recipesUserBusiness.CreateRecipesUser(request);
-               return Ok(ret);
+                if (ModelState.IsValid)
+                {
+                    var ret = await _recipesUserBusiness.CreateRecipesUser(request);
+                    return Ok(ret);
+                }
+                return BadRequest(ModelState);
             }
             catch(NullReferenceException)
             {
@@ -96,7 +112,6 @@ namespace MyRecipes.WebApi.Controllers
             {
                 return StatusCode(500);
             }
-
         }
 
     }

@@ -15,5 +15,6 @@ namespace MyRecipes.Domain.Interfaces.Managers
         Task<List<RecipesUserModel>> GetAllRecipesUser();
         Task<RecipesUserModel> CreateRecipesUser(RecipesUserRequest user);
         Task<bool> DeleteRecipesUser(int recipesUserId);
+        Task<UserModel> GetUserByRecipesUserId(int recipeUserId);
     }
 }

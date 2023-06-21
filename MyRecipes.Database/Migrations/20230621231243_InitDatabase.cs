@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MyRecipes.Database.Migrations
 {
-    public partial class InitMigration : Migration
+    public partial class InitDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -117,10 +117,10 @@ namespace MyRecipes.Database.Migrations
                 columns: new[] { "Id", "FirstName", "LastName", "Mail", "Password", "Role", "StartDate", "UserName" },
                 values: new object[,]
                 {
-                    { 1, "john", "Doe", "antoine.pinloche@admin.com", "password", "ADMIN", new DateTime(2023, 6, 21, 2, 20, 20, 881, DateTimeKind.Local).AddTicks(2548), "admin" },
-                    { 2, "john", "Doe", "antoine.pinloche@user.com", "password", "USER", new DateTime(2023, 6, 21, 2, 20, 20, 881, DateTimeKind.Local).AddTicks(2610), "user" },
-                    { 3, "Clark", "Kent", "clark.kent@gmail.com", "string", "ADMIN", new DateTime(2023, 6, 21, 2, 20, 20, 881, DateTimeKind.Local).AddTicks(2612), "string" },
-                    { 4, "Bruce", "Wayne", "Bruce.Wayne@gmail.com", "string", "USER", new DateTime(2023, 6, 21, 2, 20, 20, 881, DateTimeKind.Local).AddTicks(2614), "Batman" }
+                    { 1, "john", "Doe", "john.Doe@noOne.com", "smtetPdIdXb9x7V8Sd/eTRaFExpDs3ynfRseCnLBw34=", "ADMIN", new DateTime(2023, 6, 22, 1, 12, 43, 490, DateTimeKind.Local).AddTicks(9231), "JoDo" },
+                    { 2, "Peter", "Parker", "peter.parker@gmail.com", "P9pUnYY3HiZdzZgADzXj/jE3iZ04zDTRrXm0Kne+oNg=", "USER", new DateTime(2023, 6, 22, 1, 12, 43, 496, DateTimeKind.Local).AddTicks(5780), "spiderman" },
+                    { 3, "Clark", "Kent", "clark.kent@gmail.com", "FlmzpZfIdpTXzlT/fanNK1vOmXseSKymJIIfJpDYfLQ=", "ADMIN", new DateTime(2023, 6, 22, 1, 12, 43, 502, DateTimeKind.Local).AddTicks(2338), "Superman" },
+                    { 4, "Bruce", "Wayne", "Bruce.Wayne@gmail.com", "gzYYaVM9sRA2hFibjSG3i6FC4l8SLHaFSUvbn3Pfe4o=", "USER", new DateTime(2023, 6, 22, 1, 12, 43, 507, DateTimeKind.Local).AddTicks(9066), "Batman" }
                 });
 
             migrationBuilder.InsertData(
@@ -134,19 +134,24 @@ namespace MyRecipes.Database.Migrations
                 values: new object[] { 2, 1 });
 
             migrationBuilder.InsertData(
-                table: "Recipes",
-                columns: new[] { "Id", "Description", "Name", "Nationality", "RecipesUserId", "StartDate" },
-                values: new object[] { 1, "Riz avec légumes viande si envie!", "Riz Frit", "ASIA", 1, new DateTime(2023, 6, 21, 2, 20, 20, 881, DateTimeKind.Local).AddTicks(2618) });
+                table: "RecipesUsers",
+                columns: new[] { "Id", "UserId" },
+                values: new object[] { 3, 4 });
 
             migrationBuilder.InsertData(
                 table: "Recipes",
                 columns: new[] { "Id", "Description", "Name", "Nationality", "RecipesUserId", "StartDate" },
-                values: new object[] { 2, "faire cuire des pate en parallele des lardons", "PateCarbo", "ITALIA", 1, new DateTime(2023, 6, 21, 2, 20, 20, 881, DateTimeKind.Local).AddTicks(2620) });
+                values: new object[] { 1, "Riz avec légumes viande si envie!", "Riz Frit", "ASIAN", 1, new DateTime(2023, 6, 22, 1, 12, 43, 513, DateTimeKind.Local).AddTicks(5246) });
 
             migrationBuilder.InsertData(
                 table: "Recipes",
                 columns: new[] { "Id", "Description", "Name", "Nationality", "RecipesUserId", "StartDate" },
-                values: new object[] { 3, "Semoule Carrote a la maraaine", "SemouleMarocain", "Marocain", 2, new DateTime(2023, 6, 21, 2, 20, 20, 881, DateTimeKind.Local).AddTicks(2621) });
+                values: new object[] { 2, "faire cuire des pate en parallele des lardons", "Pate Carbo", "ITALIAN", 1, new DateTime(2023, 6, 22, 1, 12, 43, 513, DateTimeKind.Local).AddTicks(5250) });
+
+            migrationBuilder.InsertData(
+                table: "Recipes",
+                columns: new[] { "Id", "Description", "Name", "Nationality", "RecipesUserId", "StartDate" },
+                values: new object[] { 3, "Semoule Carrote a la marocaine", "Semoule Marocain", "MAROCAIN", 2, new DateTime(2023, 6, 22, 1, 12, 43, 513, DateTimeKind.Local).AddTicks(5253) });
 
             migrationBuilder.InsertData(
                 table: "CookingSteps",

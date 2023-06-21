@@ -17,5 +17,8 @@ namespace MyRecipes.Domain.Interfaces.Business
 
         Task<bool> DeleteIngredient(int ingredientId);
         Task<bool> DeleteIngredientByRecipeId(int recipeId);
+
+        Task<UserModel> GetUserByIngredient(int ingredientId);
+        Task<UserModel> GetUserByRecipeId(int recipeId);
     }
 }

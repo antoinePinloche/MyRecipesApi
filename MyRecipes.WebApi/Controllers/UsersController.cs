@@ -4,6 +4,8 @@ using MyRecipes.Domain.Business;
 using MyRecipes.Domain.Interfaces.Business;
 using MyRecipes.Domain.Models.Request;
 using MyRecipes.WebApi.Identity;
+using MyRecipes.WebApi.Tools;
+using System.Security.Claims;
 
 namespace MyRecipes.WebApi.Controllers
 {
@@ -57,7 +59,14 @@ namespace MyRecipes.WebApi.Controllers
 
         }
 
-        [Authorize(Policy = IdentityData.SimpleUserPolicyName)]
+        [Authorize]
+        [HttpGet("Self")]
+        public ActionResult GetCurrentUserInformation()
+        {
+            var test  = HttpContext.User;
+            return Ok(test);
+        }
+
         [HttpPost]
         public async Task<ActionResult> Post(UserRequest request)
         {
@@ -83,27 +92,37 @@ namespace MyRecipes.WebApi.Controllers
             }
         }
 
-        [Authorize(Policy = IdentityData.AdminUserPolicyName)]
+        [Authorize]
         [HttpPut("{Id:int}")]
-        public async Task<ActionResult> PostModifyUser(int Id, UserRequest user)
+        public async Task<ActionResult> PutModifyUser(int Id, UserRequest user)
         {
-            try
+            if (ModelState.IsValid)
             {
-                return Ok(await _usersBusiness.ChangeUserInformation(user, Id));
+                try
+                {
+                    var userConnect = HttpContext.User.Identity as ClaimsIdentity;
+                    if (userConnect != null) 
+                    {
+                        if (CurrentUserTools.CheckCurrentUserAccess(userConnect, Id))
+                            return Ok(await _usersBusiness.ChangeUserInformation(user, Id));
+                        return StatusCode(403, "Not Allow");
+                    }
+                }
+                catch (NullReferenceException)
+                {
+                    return NotFound();
+                }
+                catch (Exception)
+                {
+                    return StatusCode(500);
+                }
             }
-            catch (NullReferenceException)
-            {
-                return NotFound();
-            }
-            catch (Exception)
-            {
-                return StatusCode(500);
-            }
+            return BadRequest(ModelState);
         }
 
         [Authorize(Policy = IdentityData.AdminUserPolicyName)]
         [HttpPatch("{Id:int}/Access")]
-        public async Task<ActionResult> PostModifyUserAccess(int Id, string newRole)
+        public async Task<ActionResult> PatchModifyUserAccess(int Id, string newRole)
         {
             try
             {
@@ -121,7 +140,7 @@ namespace MyRecipes.WebApi.Controllers
 
         [Authorize(Policy = IdentityData.AdminUserPolicyName)]
         [HttpPatch("{Id:int}/Password")]
-        public async Task<ActionResult> PostModifyPassword(int Id, ChangePasswordRequest request)
+        public async Task<ActionResult> PatchModifyPassword(int Id, ChangePasswordRequest request)
         {
             if (ModelState.IsValid)
             {
@@ -143,21 +162,29 @@ namespace MyRecipes.WebApi.Controllers
 
         }
 
-        [Authorize(Policy = IdentityData.AdminUserPolicyName)]
+        [Authorize]
         [HttpDelete]
         public async Task<ActionResult> Delete(int id)
         {
             try
             {
-                var ret = await _usersBusiness.DeleteUser(id);
-                if (ret)
-                    return Ok("User Delete");
-                return NotFound();
+                var userConnect = HttpContext.User.Identity as ClaimsIdentity;
+                if (userConnect != null)
+                {
+                    if (CurrentUserTools.CheckCurrentUserAccess(userConnect, id))
+                    {
+                        var ret = await _usersBusiness.DeleteUser(id);
+                        if ( ret)
+                            return Ok();
+                    }
+                    return StatusCode(403, "Not Allow");
+                }
             }
             catch (Exception)
             {
                 return StatusCode(500);
             }
+            return NotFound();
         }
 
     }

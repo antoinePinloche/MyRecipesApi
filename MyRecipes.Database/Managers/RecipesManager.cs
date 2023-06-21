@@ -210,5 +210,31 @@ namespace MyRecipes.Database.Managers
             }
             throw new NullReferenceException();
         }
+
+        public async Task<UserModel> FoundUserByRecipe(int recipeId)
+        {
+            try
+            {
+                var recipeIdFound = await _databaseContext.Recipes.Where(r => r.Id == recipeId).Select(r => r.RecipesUserId).ToListAsync();
+                if (recipeIdFound is not null && recipeIdFound.Count > 0)
+                {
+                    var recipeUser = await _databaseContext.RecipesUsers.Where(ru => ru.Id == recipeIdFound.First()).FirstOrDefaultAsync();
+                    if (recipeUser != null)
+                    {
+                        var userRet =  await _databaseContext.Users.FirstOrDefaultAsync(u => u.Id == recipeUser.UserId);
+                        return userRet.ToUserModel();
+                    }
+                }
+                throw new NullReferenceException();
+            }
+            catch (DbUpdateConcurrencyException dbEx)
+            {
+                throw new DbUpdateConcurrencyException(dbEx.Message);
+            }
+            catch (NullReferenceException)
+            {
+                throw new NullReferenceException();
+            }
+        }
     }
 }

@@ -12,8 +12,8 @@ using MyRecipes.Database;
 namespace MyRecipes.Database.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20230621101847_initb")]
-    partial class initb
+    [Migration("20230621231243_InitDatabase")]
+    partial class InitDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -237,7 +237,7 @@ namespace MyRecipes.Database.Migrations
                             Name = "Riz Frit",
                             Nationality = "ASIAN",
                             RecipesUserId = 1,
-                            StartDate = new DateTime(2023, 6, 21, 12, 18, 47, 424, DateTimeKind.Local).AddTicks(8504)
+                            StartDate = new DateTime(2023, 6, 22, 1, 12, 43, 513, DateTimeKind.Local).AddTicks(5246)
                         },
                         new
                         {
@@ -246,16 +246,16 @@ namespace MyRecipes.Database.Migrations
                             Name = "Pate Carbo",
                             Nationality = "ITALIAN",
                             RecipesUserId = 1,
-                            StartDate = new DateTime(2023, 6, 21, 12, 18, 47, 424, DateTimeKind.Local).AddTicks(8507)
+                            StartDate = new DateTime(2023, 6, 22, 1, 12, 43, 513, DateTimeKind.Local).AddTicks(5250)
                         },
                         new
                         {
                             Id = 3,
-                            Description = "Semoule Carrote a la maraaine",
+                            Description = "Semoule Carrote a la marocaine",
                             Name = "Semoule Marocain",
                             Nationality = "MAROCAIN",
                             RecipesUserId = 2,
-                            StartDate = new DateTime(2023, 6, 21, 12, 18, 47, 424, DateTimeKind.Local).AddTicks(8509)
+                            StartDate = new DateTime(2023, 6, 22, 1, 12, 43, 513, DateTimeKind.Local).AddTicks(5253)
                         });
                 });
 
@@ -340,22 +340,22 @@ namespace MyRecipes.Database.Migrations
                             Id = 1,
                             FirstName = "john",
                             LastName = "Doe",
-                            Mail = "antoine.pinloche@admin.com",
-                            Password = "password",
+                            Mail = "john.Doe@noOne.com",
+                            Password = "smtetPdIdXb9x7V8Sd/eTRaFExpDs3ynfRseCnLBw34=",
                             Role = "ADMIN",
-                            StartDate = new DateTime(2023, 6, 21, 12, 18, 47, 424, DateTimeKind.Local).AddTicks(8463),
-                            UserName = "admin"
+                            StartDate = new DateTime(2023, 6, 22, 1, 12, 43, 490, DateTimeKind.Local).AddTicks(9231),
+                            UserName = "JoDo"
                         },
                         new
                         {
                             Id = 2,
-                            FirstName = "john",
-                            LastName = "Doe",
-                            Mail = "antoine.pinloche@user.com",
-                            Password = "password",
+                            FirstName = "Peter",
+                            LastName = "Parker",
+                            Mail = "peter.parker@gmail.com",
+                            Password = "P9pUnYY3HiZdzZgADzXj/jE3iZ04zDTRrXm0Kne+oNg=",
                             Role = "USER",
-                            StartDate = new DateTime(2023, 6, 21, 12, 18, 47, 424, DateTimeKind.Local).AddTicks(8496),
-                            UserName = "user"
+                            StartDate = new DateTime(2023, 6, 22, 1, 12, 43, 496, DateTimeKind.Local).AddTicks(5780),
+                            UserName = "spiderman"
                         },
                         new
                         {
@@ -363,9 +363,9 @@ namespace MyRecipes.Database.Migrations
                             FirstName = "Bruce",
                             LastName = "Wayne",
                             Mail = "Bruce.Wayne@gmail.com",
-                            Password = "string",
+                            Password = "gzYYaVM9sRA2hFibjSG3i6FC4l8SLHaFSUvbn3Pfe4o=",
                             Role = "USER",
-                            StartDate = new DateTime(2023, 6, 21, 12, 18, 47, 424, DateTimeKind.Local).AddTicks(8501),
+                            StartDate = new DateTime(2023, 6, 22, 1, 12, 43, 507, DateTimeKind.Local).AddTicks(9066),
                             UserName = "Batman"
                         },
                         new
@@ -374,10 +374,10 @@ namespace MyRecipes.Database.Migrations
                             FirstName = "Clark",
                             LastName = "Kent",
                             Mail = "clark.kent@gmail.com",
-                            Password = "string",
+                            Password = "FlmzpZfIdpTXzlT/fanNK1vOmXseSKymJIIfJpDYfLQ=",
                             Role = "ADMIN",
-                            StartDate = new DateTime(2023, 6, 21, 12, 18, 47, 424, DateTimeKind.Local).AddTicks(8498),
-                            UserName = "string"
+                            StartDate = new DateTime(2023, 6, 22, 1, 12, 43, 502, DateTimeKind.Local).AddTicks(2338),
+                            UserName = "Superman"
                         });
                 });
 

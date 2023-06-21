@@ -16,5 +16,7 @@ namespace MyRecipes.Domain.Interfaces.Managers
         public Task<bool> RemoveCookingStep(int id);
         public Task<bool> RemoveAllCookingStepByRecipeId(int recipeId);
         public Task<List<CookingStepModel>> CreateCookingSteps(List<CookingStepRequest> models);
+        Task<UserModel> FoundUserByCookingStepId(int recipeId);
+        Task<UserModel> FoundUserByRecipeId(int recipeId);
     }
 }

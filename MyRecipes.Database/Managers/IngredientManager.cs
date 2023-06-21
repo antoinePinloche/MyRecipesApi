@@ -158,5 +158,61 @@ namespace MyRecipes.Database.Managers
             }
             throw new NullReferenceException();
         }
+
+        public async Task<UserModel> GetUserByIngredient(int ingredientId)
+        {
+            try
+            {
+                var cookingStep = await _databaseContext.Ingredients.FirstOrDefaultAsync(cs => cs.Id == ingredientId);
+                if (cookingStep is not null)
+                {
+                    var recipe = await _databaseContext.Recipes.FirstOrDefaultAsync(r => r.Id == cookingStep.RecipeId);
+                    if (recipe is not null)
+                    {
+                        var recipeUser = await _databaseContext.RecipesUsers.FirstOrDefaultAsync(ru => ru.Id == recipe.RecipesUserId);
+                        if (recipeUser is not null)
+                        {
+                            var user = await _databaseContext.Users.FirstOrDefaultAsync(u => u.Id == recipeUser.UserId);
+                            return user.ToUserModel();
+                        }
+                    }
+                }
+                throw new NullReferenceException();
+            }
+            catch (DbUpdateException dbEx)
+            {
+                throw new DbUpdateException(dbEx.Message);
+            }
+            catch (NullReferenceException)
+            {
+                throw new NullReferenceException();
+            }
+        }
+
+        public async Task<UserModel> GetUserByRecipeId(int recipeId)
+        {
+            try
+            {
+                var recipe = await _databaseContext.Recipes.FirstOrDefaultAsync(r => r.Id == recipeId);
+                if (recipe is not null)
+                {
+                    var recipeUser = await _databaseContext.RecipesUsers.FirstOrDefaultAsync(ru => ru.Id == recipe.RecipesUserId);
+                    if (recipeUser is not null)
+                    {
+                        var user = await _databaseContext.Users.FirstOrDefaultAsync(u => u.Id == recipeUser.UserId);
+                        return user.ToUserModel();
+                    }
+                }
+                throw new NullReferenceException();
+            }
+            catch (DbUpdateException dbEx)
+            {
+                throw new DbUpdateException(dbEx.Message);
+            }
+            catch (NullReferenceException)
+            {
+                throw new NullReferenceException();
+            }
+        }
     }
 }

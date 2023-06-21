@@ -73,6 +73,22 @@ namespace MyRecipes.Domain.Business
             }
         }
 
+        public async Task<UserModel> FoundUserByRecipe(int recipeId)
+        {
+            try
+            {
+                return await _recipesManager.FoundUserByRecipe(recipeId);
+            }
+            catch (NullReferenceException)
+            {
+                throw new NullReferenceException();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public async Task<List<RecipeModel>> GetAllRecipes()
         {
             try

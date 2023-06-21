@@ -17,5 +17,6 @@ namespace MyRecipes.Domain.Interfaces.Business
         Task<List<RecipeModel>> FoundRecetteByNationality(string nationality);
         Task<bool> DeleteRecipe(int recipeId);
         Task<RecipeModel> ModifyRecipe(RecipeRequest recipeRequest, int id);
+        Task<UserModel> FoundUserByRecipe(int recipeId);
     }
 }

@@ -159,5 +159,27 @@ namespace MyRecipes.Database.Managers
             }
             throw new NullReferenceException();
         }
+
+        public async Task<UserModel> GetUserByRecipesUserId(int recipeUserId)
+        {
+            try
+            {
+                var recipeUser = await _databaseContext.RecipesUsers.FirstOrDefaultAsync(ru => ru.Id == recipeUserId);
+                if ( recipeUser is not null)
+                {
+                    var user = await _databaseContext.Users.FirstOrDefaultAsync(u => u.Id == recipeUser.UserId);
+                    return user.ToUserModel();
+                }
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new DbUpdateException(ex.Message);
+            }
+            catch (NullReferenceException ex)
+            {
+                throw new NullReferenceException(ex.Message);
+            }
+            throw new NullReferenceException();
+        }
     }
 }

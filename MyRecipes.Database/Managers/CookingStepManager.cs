@@ -57,6 +57,62 @@ namespace MyRecipes.Database.Managers
 
         }
 
+        public async Task<UserModel> FoundUserByCookingStepId(int cookingStepId)
+        {
+            try
+            {
+                var cookingStep = await _databaseContext.CookingSteps.FirstOrDefaultAsync(cs => cs.Id == cookingStepId);
+                if (cookingStep is not null)
+                {
+                    var recipe = await _databaseContext.Recipes.FirstOrDefaultAsync(r => r.Id == cookingStep.RecipeId);
+                    if (recipe is not null)
+                    {
+                        var recipeUser = await _databaseContext.RecipesUsers.FirstOrDefaultAsync(ru => ru.Id == recipe.RecipesUserId);
+                        if (recipeUser is not null)
+                        {
+                            var user =  await _databaseContext.Users.FirstOrDefaultAsync(u => u.Id == recipeUser.UserId);
+                            return user.ToUserModel();
+                        }
+                    }
+                }
+                throw new NullReferenceException();
+            }
+            catch (DbUpdateException dbEx)
+            {
+                throw new DbUpdateException(dbEx.Message);
+            }
+            catch (NullReferenceException)
+            {
+                throw new NullReferenceException();
+            }
+        }
+
+        public async Task<UserModel> FoundUserByRecipeId(int recipeId)
+        {
+            try
+            {
+                var recipe = await _databaseContext.Recipes.FirstOrDefaultAsync(r => r.Id == recipeId);
+                if (recipe is not null)
+                {
+                     var recipeUser = await _databaseContext.RecipesUsers.FirstOrDefaultAsync(ru => ru.Id == recipe.RecipesUserId);
+                     if (recipeUser is not null)
+                     {
+                         var user = await _databaseContext.Users.FirstOrDefaultAsync(u => u.Id == recipeUser.UserId);
+                         return user.ToUserModel();
+                     }
+                }
+                throw new NullReferenceException();
+            }
+            catch (DbUpdateException dbEx)
+            {
+                throw new DbUpdateException(dbEx.Message);
+            }
+            catch (NullReferenceException)
+            {
+                throw new NullReferenceException();
+            }
+        }
+
         public Task<List<CookingStepModel>> GetAllCookingSteps()
         {
             try

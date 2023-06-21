@@ -122,5 +122,37 @@ namespace MyRecipes.Domain.Business
             }
 
         }
+
+        public async Task<UserModel> GetUserByIngredient(int ingredientId)
+        {
+            try
+            {
+                return await _ingredientManager.GetUserByIngredient(ingredientId);
+            }
+            catch (NullReferenceException)
+            {
+                throw new NullReferenceException();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<UserModel> GetUserByRecipeId(int recipeId)
+        {
+            try
+            {
+                return await _ingredientManager.GetUserByRecipeId(recipeId);
+            }
+            catch (NullReferenceException)
+            {
+                throw new NullReferenceException();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

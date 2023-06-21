@@ -16,5 +16,7 @@ namespace MyRecipes.Domain.Interfaces.Managers
         Task<List<IngredientModel>> FoundIngredientByRecetteId(int recetteId);
         Task<bool> DeleteIngredient(int ingredientId);
         Task<bool> DeleteIngredientByRecipeId(int recipeId);
+        Task<UserModel> GetUserByIngredient(int ingredientId);
+        Task<UserModel> GetUserByRecipeId(int recipeId);
     }
 }
