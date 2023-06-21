@@ -27,20 +27,20 @@ namespace MyRecipes.Database
                 StartDate = DateTime.Now,
                 FirstName = "john",
                 LastName = "Doe",
-                Mail = "antoine.pinloche@admin.com",
+                Mail = "john.Doe@noOne.com",
                 Password = "password",
-                UserName = "admin",
+                UserName = "JoDo",
                 Role = "ADMIN"
             };
             var user = new User
             {
                 Id = 2,
                 StartDate = DateTime.Now,
-                FirstName = "john",
-                LastName = "Doe",
-                Mail = "antoine.pinloche@user.com",
-                Password = "password",
-                UserName = "user",
+                FirstName = "Peter",
+                LastName = "Parker",
+                Mail = "peter.parker@gmail.com",
+                Password = "spiderPassword",
+                UserName = "spiderman",
                 Role = "USER"
             };
             var adminBis = new User
@@ -50,8 +50,8 @@ namespace MyRecipes.Database
                 FirstName = "Clark",
                 LastName = "Kent",
                 Mail = "clark.kent@gmail.com",
-                Password = "string",
-                UserName = "string",
+                Password = "SuperPassword",
+                UserName = "Superman",
                 Role = "ADMIN"
             };
             var userBis = new User
@@ -61,7 +61,7 @@ namespace MyRecipes.Database
                 FirstName = "Bruce",
                 LastName = "Wayne",
                 Mail = "Bruce.Wayne@gmail.com",
-                Password = "string",
+                Password = "BatPassword",
                 UserName = "Batman",
                 Role = "USER"
             };
@@ -94,7 +94,7 @@ namespace MyRecipes.Database
             {
                 Id = 3,
                 Name = "Semoule Marocain",
-                Description = "Semoule Carrote a la maraaine",
+                Description = "Semoule Carrote a la marocaine",
                 StartDate = DateTime.Now,
                 Nationality = "MAROCAIN",
                 RecipesUserId = newRecipeUser2.Id
